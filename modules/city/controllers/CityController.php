@@ -4,6 +4,8 @@ namespace app\modules\city\controllers;
 
 use app\models\City;
 use app\models\CitySearch;
+use app\models\User;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,17 +20,19 @@ class CityController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['create', 'update','delete'],
+                'rules' =>[
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+
                     ],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -38,6 +42,7 @@ class CityController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new CitySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 

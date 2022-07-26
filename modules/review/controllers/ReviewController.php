@@ -5,7 +5,9 @@ namespace app\modules\review\controllers;
 use app\models\ImageUpload;
 use app\models\Review;
 use app\models\ReviewSearch;
+use app\models\User;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,17 +23,19 @@ class ReviewController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['create', 'update','delete'],
+                'rules' =>[
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+
                     ],
                 ],
-            ]
-        );
+            ],
+        ];
     }
 
     /**
@@ -58,7 +62,8 @@ class ReviewController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+
+       return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -73,17 +78,18 @@ class ReviewController extends Controller
         $model = new Review();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->saveReview()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            $model->load($this->request->post()) && $model->saveReview();
+            $model->image = UploadedFile::getInstance($model, 'image');
+            $model->image->saveAs("uploads/{$model->image->baseName}.{$model->image->extension}");
+            $model->save(false);
+            return $this->redirect(['view', 'id' => $model->id]);
             }
-        } else {
-            $model->loadDefaultValues();
-        }
 
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * Updates an existing Review model.
@@ -96,13 +102,17 @@ class ReviewController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->saveReview()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+       if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           return $this->redirect(['view', 'id'=> $model->id]);
+       } else {
+           if (Yii::$app->request->isAjax){
+               return $this->renderAjax('_form', [
+                   'model' => $model]);
+           } else {
+               return $this->render('update', [
+                   'model' => $model]);
+           }
+    }
     }
 
     /**

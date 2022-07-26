@@ -5,13 +5,17 @@ namespace app\controllers;
 use app\models\City;
 use app\models\Review;
 use app\models\SignupForm;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\UploadForm;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -64,7 +68,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         return $this->render('index');
+
     }
 
     /**
@@ -132,34 +138,57 @@ class SiteController extends Controller
 
     public function actionReview($id)
     {
-        $city=city::findOne($id);
+        $city = city::findOne($id);
         $reviews = $city->getReview()->all();
 
-        return $this->render('review',[
-            'city'=>$city,
-            'reviews'=> $reviews
+
+        return $this->render('review', [
+            'city' => $city,
+            'reviews' => $reviews,
+
         ]);
     }
 
     public function actionSignup()
     {
 
-      $model = new SignupForm();
+        $model = new SignupForm();
 
-      if(Yii::$app->request->isPost)
-      {
-          $model->load(Yii::$app->request->post());
-          if($model->signup())
-          {
-              return $this->redirect('login');
-          }
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            if ($model->signup()) {
+                return $this->redirect('login');
+            }
 
-          return $this->redirect(['login']);
+            return $this->redirect(['login']);
 
-      }
+        }
 
-      return $this->render('signup', ['model'=>$model]);
+        return $this->render('signup', ['model' => $model]);
     }
 
+    public function actionSingle($id)
+    {
+
+
+        $city = city::findOne($id);
+        $reviews = $city->getReview()->where(['id_author'=> $id])->all();
+
+
+        return $this->render('single', [
+            'city' => $city,
+            'reviews' => $reviews,
+
+        ]);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = Review::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
+    }
 
 }

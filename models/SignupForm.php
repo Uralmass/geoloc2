@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 
+
 class  SignupForm extends Model
 {
     public $fio;
@@ -30,13 +31,22 @@ class  SignupForm extends Model
 
     }
 
+    /**
+     * @throws \yii\base\Exception
+     */
     public function signup()
     {
         if($this->validate())
         {
             $user= new User;
 
-            $user->attributes = $this->attributes;
+         //   $user->fio = $this->fio;
+          //  $user->email = $this->email;
+          //  $user->phone = $this->phone;
+
+           $user->attributes = $this->attributes;
+
+            $user->password=\Yii::$app->security->generatePasswordHash($this->password);
 
             return $user->create();
 

@@ -27,6 +27,9 @@ $config = [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'session'=>[
+            'timeout'=>60*60*2,
+        ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             // send all mails to a file by default. You have to set

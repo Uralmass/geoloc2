@@ -1,28 +1,46 @@
-<button class="btn btn-info" data-toggle="modal" data-target="#myModal">Вспывающее окно</button>
-<div id="myModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-sm">
+<?php
+
+require_once 'C:\OpenServer\domains\geoloc\views\site\cities.php';
+use yii\helpers\Html;
+use yii\web\JsExpression;
+use yii\widgets\ActiveForm;
+use yii\jui\AutoComplete;
+use app\models\city;
+
+?>
+<script>
+    window.addEventListener('load', function () {
+        const elemModal = document.querySelector('#exampleModal');
+        const modal = new bootstrap.Modal(elemModal);
+        modal.show();
+    });
+</script>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal">х</button>
-                <h4 class="modal-title">Заголовок окна</h4>
+                <h5 class="modal-title" id="exampleModalLabel">Данные об авторе</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">Некий текст уведомления</div>
+            <div class="modal-body">
+
+                <div class="review-form">
+
+                   xyz
+
+                </div>
+
+            </div>
             <div class="modal-footer">
-                <button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a class="btn btn-primary"  role="button">Отзывы автора</a>
+
             </div>
         </div>
     </div>
 </div>
-
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script>
-    $('#myModal').modal("toggle");
-
-    $('#myModal').on('shown.bs.modal', function (event) {
-        // функции
-        alert ("Выполенно");
-    });
-</script>

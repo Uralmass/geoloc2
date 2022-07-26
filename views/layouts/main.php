@@ -1,15 +1,18 @@
 <?php
-
+session_start();
 /** @var yii\web\View $this */
 /** @var string $content */
 
 use app\assets\AppAsset;
+use app\models\City;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
+use yii\helpers\Url;
 
+$cities=city::find()->all();
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -26,6 +29,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <header>
+
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -37,12 +41,15 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+          //  ['label' => 'Home', 'url' => ['/site/index']],
          //   ['label' => 'About', 'url' => ['/site/about']],
           //  ['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'City', 'url' => ['/city/city/index']],
-            ['label' => 'Review', 'url' => ['/review/review/index']],
-            ['label' => 'Registration', 'url' => ['/site/signup']],
+         //   ['label' => 'City', 'url' => ['/city/city/index']],
+          //  ['label' => 'Review', 'url' => ['/review/review/index']],
+              ['label' => 'Создать отзыв', 'url' => ['/review/review/create']],
+              ['label' => 'Регистрация', 'url' => ['/site/signup']],
+
+
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
@@ -56,10 +63,11 @@ AppAsset::register($this);
                 . '</li>'
             )
         ],
+
     ]);
 
-
     NavBar::end();
+
     ?>
 
 </header>
@@ -82,6 +90,7 @@ AppAsset::register($this);
 </footer>
 
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>
