@@ -7,8 +7,10 @@ use app\models\Review;
 use app\models\SignupForm;
 use app\models\User;
 use Yii;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -138,15 +140,18 @@ class SiteController extends Controller
 
     public function actionReview($id)
     {
-        $city = city::findOne($id);
-        $reviews = $city->getReview()->all();
+       if(!empty( $city = city::findOne($id)))
+       {
+           $reviews = $city->getReview()->all();
 
+           return $this->render('review', [
+               'city' => $city,
+               'reviews' => $reviews,
 
-        return $this->render('review', [
-            'city' => $city,
-            'reviews' => $reviews,
+           ]);
 
-        ]);
+       } else  throw new NotFoundHttpException('Пустота, не найдено.');
+
     }
 
     public function actionSignup()
@@ -172,12 +177,13 @@ class SiteController extends Controller
 
 
         $city = city::findOne($id);
-        $reviews = $city->getReview()->where(['id_author'=> $id])->all();
+        $reviews = $city->getReview()->all();
 
 
-        return $this->render('single', [
+        return $this->render('review', [
             'city' => $city,
             'reviews' => $reviews,
+
 
         ]);
     }

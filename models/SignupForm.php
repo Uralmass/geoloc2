@@ -13,6 +13,7 @@ class  SignupForm extends Model
     public $password;
     public $verifyCode;
     public $password_repeat;
+    public $date_create;
 
 
     public function rules()
@@ -25,6 +26,8 @@ class  SignupForm extends Model
             ['verifyCode', 'captcha'],
             ['password_repeat', 'compare', 'compareAttribute'=>'password' , 'message'=>"Passwords don't match"],
             ['password_repeat', 'required'],
+            [['date_create'], 'date', 'format'=>'php:Y-m-d'],
+            [['date_create'], 'default', 'value'=>date('Y-m-d')],
 
 
         ];
