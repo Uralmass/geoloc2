@@ -23,8 +23,8 @@ class CityController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update','delete'],
-                'rules' =>[
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],

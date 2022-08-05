@@ -1,6 +1,6 @@
 <?php
 
-require_once 'C:\OpenServer\domains\geoloc\views\site\cities.php';
+require_once 'cities.php';
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;

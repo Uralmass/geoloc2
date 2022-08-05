@@ -13,53 +13,54 @@ use yii\widgets\Pjax;
 $this->title = 'Reviews';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="review-index">
+    <div class="review-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+        <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Review', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+        <p>
+            <?= Html::a('Create Review', ['create'], ['class' => 'btn btn-success']) ?>
+        </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php Pjax::begin(); ?>
+        <?php Pjax::begin(); ?>
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'id_city',
-            'title',
-            'text:ntext',
-            'rating',
-            'image',
-            [
-                 'format' => 'html',
-                 'label'=>'Image',
-                 'value'=> function($data){
-                        return Html::img($data->getImage(),['width'=>200]);
-                 }
+                'id',
+                'id_city',
+                'title',
+                'text:ntext',
+                'rating',
+                'image',
+                [
+                    'format' => 'html',
+                    'label' => 'Image',
+                    'value' => function ($data) {
+                        return Html::img($data->getImage(), ['width' => 200]);
+                    }
 
-],
-            'id_author',
-            'date_create',
-            [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action,  $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                ],
+                'id_author',
+                'date_create',
+                [
+                    'class' => ActionColumn::className(),
+                    'urlCreator' => function ($action, $model, $key, $index, $column) {
+                        return Url::toRoute([$action, 'id' => $model->id]);
+                    }
+                ],
             ],
-        ],
-    ]); ?>
+        ]); ?>
 
-    <?php Pjax::end(); ?>
-</div>
+        <?php Pjax::end(); ?>
+    </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -74,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php $this->registerJs("
+<?php $this->registerJs("
     $('.grid-view tbody tr').on('click', function(){
     var data = $(this).data();
     $('#exampleModal').modal('show');

@@ -4,7 +4,8 @@ namespace app\models;
 
 use yii\base\Model;
 
-class ImageUpload extends Model{
+class ImageUpload extends Model
+{
 
 
     public $image;
@@ -14,7 +15,7 @@ class ImageUpload extends Model{
 
         $this->image = $file;
 
-        $filename = strtolower(md5(uniqid($file->baseName)) .'.' . $file->extension);
+        $filename = strtolower(md5(uniqid($file->baseName)) . '.' . $file->extension);
 
         $file->saveAs(\Yii::getAlias('@web') . 'uploads/' . $filename);
 

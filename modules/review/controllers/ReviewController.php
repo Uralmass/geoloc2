@@ -26,8 +26,8 @@ class ReviewController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['create', 'update','delete'],
-                'rules' =>[
+                'only' => ['create', 'update', 'delete'],
+                'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
@@ -63,7 +63,7 @@ class ReviewController extends Controller
     public function actionView($id)
     {
 
-       return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -83,7 +83,7 @@ class ReviewController extends Controller
             $model->image->saveAs("uploads/{$model->image->baseName}.{$model->image->extension}");
             $model->save(false);
             return $this->redirect(['view', 'id' => $model->id]);
-            }
+        }
 
         return $this->render('create', [
             'model' => $model,
@@ -102,17 +102,17 @@ class ReviewController extends Controller
     {
         $model = $this->findModel($id);
 
-       if ($model->load(Yii::$app->request->post()) && $model->save()) {
-           return $this->redirect(['view', 'id'=> $model->id]);
-       } else {
-           if (Yii::$app->request->isAjax){
-               return $this->renderAjax('_form', [
-                   'model' => $model]);
-           } else {
-               return $this->render('update', [
-                   'model' => $model]);
-           }
-    }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            if (Yii::$app->request->isAjax) {
+                return $this->renderAjax('_form', [
+                    'model' => $model]);
+            } else {
+                return $this->render('update', [
+                    'model' => $model]);
+            }
+        }
     }
 
     /**
@@ -150,19 +150,16 @@ class ReviewController extends Controller
 
         $model = new ImageUpload;
 
-        if (Yii::$app->request->isPost)
-
-        {
+        if (Yii::$app->request->isPost) {
             $review = $this->findModel($id);
             $file = UploadedFile::getInstance($model, 'image');
 
-            if($review->saveImage($model->UploadFile($file)))
-            {
-                return $this->redirect(['view','id'=> $review->id]);
+            if ($review->saveImage($model->UploadFile($file))) {
+                return $this->redirect(['view', 'id' => $review->id]);
             }
 
         }
 
-        return $this->render('image', ['model'=>$model]);
+        return $this->render('image', ['model' => $model]);
     }
 }

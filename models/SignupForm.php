@@ -20,14 +20,14 @@ class  SignupForm extends Model
     {
         return [
             [['fio', 'email', 'phone', 'password'], 'required'],
-            [['fio','phone'], 'string'],
+            [['fio', 'phone'], 'string'],
             [['email'], 'email'],
-            [['email'], 'unique', 'targetClass'=>'app\models\User', 'targetAttribute'=>'email'],
+            [['email'], 'unique', 'targetClass' => 'app\models\User', 'targetAttribute' => 'email'],
             ['verifyCode', 'captcha'],
-            ['password_repeat', 'compare', 'compareAttribute'=>'password' , 'message'=>"Passwords don't match"],
+            ['password_repeat', 'compare', 'compareAttribute' => 'password', 'message' => "Passwords don't match"],
             ['password_repeat', 'required'],
-            [['date_create'], 'date', 'format'=>'php:Y-m-d'],
-            [['date_create'], 'default', 'value'=>date('Y-m-d')],
+            [['date_create'], 'date', 'format' => 'php:Y-m-d'],
+            [['date_create'], 'default', 'value' => date('Y-m-d')],
 
 
         ];
@@ -39,17 +39,16 @@ class  SignupForm extends Model
      */
     public function signup()
     {
-        if($this->validate())
-        {
-            $user= new User;
+        if ($this->validate()) {
+            $user = new User;
 
-         //   $user->fio = $this->fio;
-          //  $user->email = $this->email;
-          //  $user->phone = $this->phone;
+            //   $user->fio = $this->fio;
+            //  $user->email = $this->email;
+            //  $user->phone = $this->phone;
 
-           $user->attributes = $this->attributes;
+            $user->attributes = $this->attributes;
 
-            $user->password=\Yii::$app->security->generatePasswordHash($this->password);
+            $user->password = \Yii::$app->security->generatePasswordHash($this->password);
 
             return $user->create();
 

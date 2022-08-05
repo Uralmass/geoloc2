@@ -34,12 +34,12 @@ class Review extends \yii\db\ActiveRecord
     {
         return [
             [['id_city', 'rating'], 'integer'],
-            [['date_create'], 'date', 'format'=>'php:Y-m-d'],
-            [['date_create'], 'default', 'value'=>date('Y-m-d')],
+            [['date_create'], 'date', 'format' => 'php:Y-m-d'],
+            [['date_create'], 'default', 'value' => date('Y-m-d')],
             [['title'], 'string', 'max' => 100],
             [['text'], 'string', 'max' => 255],
-            [['rating'],'in', 'range'=>[1,2,3,4,5], 'message'=>"Целое число от 1 до 5"],
-         //   [['id_author'], 'attribute' => 'fio', 'value' => 'fio'],
+            [['rating'], 'in', 'range' => [1, 2, 3, 4, 5], 'message' => "Целое число от 1 до 5"],
+            //   [['id_author'], 'attribute' => 'fio', 'value' => 'fio'],
 
         ];
     }
@@ -64,12 +64,12 @@ class Review extends \yii\db\ActiveRecord
     public function saveImage($filename)
     {
         $this->image = $filename;
-        return  $this->save(false);
+        return $this->save(false);
     }
 
     public function getImage()
     {
-            return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
+        return ($this->image) ? '/uploads/' . $this->image : '/no-image.png';
     }
 
     public function saveReview()
@@ -80,7 +80,7 @@ class Review extends \yii\db\ActiveRecord
 
     public function getAuthor()
     {
-        return $this->hasOne(User::className(),['id'=>'id_author']);
+        return $this->hasOne(User::className(), ['id' => 'id_author']);
     }
 
 

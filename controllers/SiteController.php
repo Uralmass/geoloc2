@@ -140,17 +140,19 @@ class SiteController extends Controller
 
     public function actionReview($id)
     {
-       if(!empty( $city = city::findOne($id)))
-       {
-           $reviews = $city->getReview()->all();
+        if (!empty($city = City::findOne($id))) {
+            $reviews = $city->getReview()->all();
 
-           return $this->render('review', [
-               'city' => $city,
-               'reviews' => $reviews,
+            return $this->render('review', [
+                'city' => $city,
+                'reviews' => $reviews,
 
-           ]);
+            ]);
 
-       } else  throw new NotFoundHttpException('Пустота, не найдено.');
+        } else new City();
+
+        return $this->render('review');
+
 
     }
 
@@ -180,7 +182,7 @@ class SiteController extends Controller
         $reviews = $city->getReview()->all();
 
 
-        return $this->render('review', [
+        return $this->render('single', [
             'city' => $city,
             'reviews' => $reviews,
 

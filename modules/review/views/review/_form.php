@@ -1,5 +1,6 @@
 <?php
 require_once 'C:\OpenServer\domains\geoloc\views\site\cities.php';
+
 use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
@@ -13,11 +14,11 @@ use app\models\city;
 
 <div class="review-form">
 
-<?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?
 
-    $listdata=City::find()
+    $listdata = City::find()
         ->select(['id as value', 'name as label'])
         ->asArray()
         ->all();
@@ -25,13 +26,13 @@ use app\models\city;
 
     <?= $form->field($model, 'id_city')->label('Город')->widget(
         AutoComplete::className(), [
-      //  'value' => $model->id_city->label,
+        //  'value' => $model->id_city->label,
         'clientOptions' => [
             'source' => $listdata,
 
         ],
-        'options'=>[
-            'class'=>'form-control'
+        'options' => [
+            'class' => 'form-control'
         ],
 
 
@@ -45,8 +46,6 @@ use app\models\city;
     <?= $form->field($model, 'rating')->textInput() ?>
 
     <?= $form->field($model, 'image')->fileInput() ?>
-
-
 
 
     <div class="form-group">
