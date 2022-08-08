@@ -140,7 +140,7 @@ class SiteController extends Controller
 
     public function actionReview($id)
     {
-        if (!empty($city = City::findOne($id))) {
+        if (!empty($city = City::findOne($id) ?: new City())) {
             $reviews = $city->getReview()->all();
 
             return $this->render('review', [
@@ -149,10 +149,7 @@ class SiteController extends Controller
 
             ]);
 
-        } else new City();
-
-        return $this->render('review');
-
+        }
 
     }
 
